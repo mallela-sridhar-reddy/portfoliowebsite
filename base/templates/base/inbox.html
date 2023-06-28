@@ -1,0 +1,39 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container">
+
+<h3 class="my-4 text-white">Messages</h3>
+<h5 class="text-white">{{unreadCount}} unread messages</h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Sender</th>
+            <th>Subject</th>
+            <th>Date sent</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for message in inbox %}
+        {% if message.is_read %}
+        <tr>
+            {% else %}
+        <tr style="font-weight: 900;">
+            {% endif %}
+                <td>{{message.name}}</td>
+                {% if request.user.is_authenticated %}
+                    <td><a href="{% url 'message' message.id %}">{{message.subject}}</a></td>
+                {% else %}
+                <td><a href="">{{message.subject}}</a></td>
+                {% endif %}
+                <td>{{message.created}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+{% endblock %}
